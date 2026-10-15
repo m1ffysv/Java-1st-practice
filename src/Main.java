@@ -1,7 +1,9 @@
+
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
+    private static Matrix lastResult = null;
 
     public static Matrix inputMatrix() {
         System.out.print("Количество строк: ");
@@ -31,6 +33,25 @@ public class Main {
         return matrix;
     }
 
+    public static Matrix chooseMatrix() {
+        if (lastResult == null) {
+            System.out.println("Сохраненного результата нет.");
+            return inputMatrix();
+        }
+
+        System.out.println("1. Создать новую матрицу");
+        System.out.println("2. Использовать последний результат");
+        System.out.print("Выберите вариант: ");
+
+        int choice = scanner.nextInt();
+
+        if (choice == 2) {
+            return lastResult;
+        }
+
+        return inputMatrix();
+    }
+
     public static void main(String[] args) {
         while (true) {
             System.out.println("\nМАТРИЦЫ КОМПЛЕКСНЫХ ЧИСЕЛ");
@@ -39,6 +60,7 @@ public class Main {
             System.out.println("3. Деление матриц");
             System.out.println("4. Транспонирование матрицы");
             System.out.println("5. Вычисление определителя");
+            System.out.println("6. Показать последний результат");
             System.out.println("0. Выход");
             System.out.print("Выберите операцию: ");
 
@@ -57,56 +79,75 @@ public class Main {
                 switch (choice) {
                     case 1:
                         System.out.println("Первая матрица:");
-                        a = inputMatrix();
+                        a = chooseMatrix();
 
                         System.out.println("Вторая матрица:");
-                        b = inputMatrix();
+                        b = chooseMatrix();
 
                         result = a.add(b);
+                        lastResult = result;
+
                         System.out.println("Результат:");
-                        System.out.println(result);
+                        System.out.println(lastResult);
                         break;
 
                     case 2:
                         System.out.println("Первая матрица:");
-                        a = inputMatrix();
+                        a = chooseMatrix();
 
                         System.out.println("Вторая матрица:");
-                        b = inputMatrix();
+                        b = chooseMatrix();
 
                         result = a.multiply(b);
+                        lastResult = result;
+
                         System.out.println("Результат:");
-                        System.out.println(result);
+                        System.out.println(lastResult);
                         break;
 
                     case 3:
                         System.out.println("Первая матрица:");
-                        a = inputMatrix();
+                        a = chooseMatrix();
 
                         System.out.println("Вторая матрица:");
-                        b = inputMatrix();
+                        b = chooseMatrix();
 
                         result = a.divide(b);
+                        lastResult = result;
+
                         System.out.println("Результат:");
-                        System.out.println(result);
+                        System.out.println(lastResult);
                         break;
 
                     case 4:
                         System.out.println("Матрица:");
-                        a = inputMatrix();
+                        a = chooseMatrix();
 
                         result = a.transpose();
+                        lastResult = result;
+
                         System.out.println("Результат:");
-                        System.out.println(result);
+                        System.out.println(lastResult);
                         break;
 
                     case 5:
                         System.out.println("Матрица:");
-                        a = inputMatrix();
+                        a = chooseMatrix();
 
                         System.out.println(
                                 "Определитель: " + a.determinant()
                         );
+                        break;
+
+                    case 6:
+                        if (lastResult == null) {
+                            System.out.println(
+                                    "Последнего результата пока нет"
+                            );
+                        } else {
+                            System.out.println("Последний результат:");
+                            System.out.println(lastResult);
+                        }
                         break;
 
                     default:
